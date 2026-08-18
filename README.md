@@ -1,43 +1,40 @@
 # Dragonix Public
 
-Dragonix Public is the curated, reusable part of the Dragonix configuration
-system. It is intentionally separate from the private Dragonix deployment
-configuration.
+Dragonix Public is the reusable, sanitized core of a larger private Nix
+configuration. It is a real standalone Home Manager module library rather than
+a redacted mirror: private Dragonix can consume these modules, while this
+repository remains useful on its own.
 
-This repository is a fresh publication surface, not a mirror of the private
-Dragonix repository. The private repository remains the source of truth for
-real hosts, users, networking, secrets, and deployment state.
+## What is included
 
-## Initial seed
+- A complete `homeManagerModules.default` entry point.
+- Composable CLI features for Git, fd, jq, ripgrep, bat, eza, fzf, zoxide,
+  direnv, Starship, tealdeer, `just`, Git delta, Nix formatting, and shell
+  quality tools.
+- Portable tmux, Zellij, and WezTerm modules with documented extension points.
+- `minimal`, `developer`, and `terminal` profiles for quick adoption.
+- Cross-platform flake checks and standalone example compositions.
 
-The first public seed contains a standalone Home Manager module for a small
-`just` command-runner helper. It is deliberately small so that the public
-repository can be validated independently before more modules are considered.
-
-Use it from a Home Manager configuration:
+Start with:
 
 ```nix
 {
-  imports = [
-    inputs.dragonix-public.homeManagerModules.just
-  ];
+  inputs.dragonix-public.url = "github:nikhilmaddirala/dragonix-public";
 
-  dragonix.features.programs.cli.just.enable = true;
+  outputs = { self, nixpkgs, home-manager, dragonix-public, ... }:
+    home-manager.lib.homeManagerConfiguration {
+      pkgs = import nixpkgs { system = "x86_64-linux"; };
+      modules = [
+        dragonix-public.homeManagerModules.default
+        { dragonix.profiles.developer.enable = true; }
+      ];
+    };
 }
 ```
 
-The module installs `just` and a `j` helper. When run inside a repository with
-a `justfile`, `j` executes that file from its repository root; otherwise it
-delegates to `just` normally.
+See [`modules/README.md`](modules/README.md), [`flake/README.md`](flake/README.md),
+and [`docs/public-boundary.md`](docs/public-boundary.md) for the module catalog,
+validation surface, and publication boundary.
 
-## Validation
-
-```bash
-nix flake check
-```
-
-## Publication status
-
-This is pre-publication staging. The repository must receive an explicit
-license decision and a final security, privacy, and provenance review before
-the standalone GitHub repository is made public.
+This repository deliberately contains no real host or home configuration,
+networking, deployment, secret, agent-estate, or private-repository data.

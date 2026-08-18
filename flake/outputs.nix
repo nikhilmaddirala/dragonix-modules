@@ -7,28 +7,29 @@ let
     "aarch64-linux"
   ];
 
-  checkFor = system:
+  checkFor = system: example:
     let
       pkgs = import inputs.nixpkgs { inherit system; };
       home = inputs.home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
-          ../modules/programs/cli/just
-          {
-            home.username = "public";
-            home.homeDirectory = "/home/public";
-            home.stateVersion = "24.11";
-            dragonix.features.programs.cli.just.enable = true;
-          }
+          example
         ];
       };
     in
     home.activationPackage;
 in
 {
+  homeManagerModules.default = ../modules/dragonix;
+  homeManagerModules.cli = ../modules/programs/cli;
   homeManagerModules.just = ../modules/programs/cli/just;
+  homeManagerModules.nix = ../modules/programs/nix;
+  homeManagerModules.profiles = ../modules/profiles;
+  homeManagerModules.terminal = ../modules/programs/terminal;
 
   checks = lib.genAttrs systems (system: {
-    just = checkFor system;
+    developer = checkFor system ../examples/developer.nix;
+    minimal = checkFor system ../examples/minimal.nix;
+    terminal = checkFor system ../examples/terminal.nix;
   });
 }

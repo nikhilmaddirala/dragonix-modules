@@ -8,6 +8,8 @@ Dragonix behavior.
 - Independently usable Nix modules.
 - Generic flake outputs, examples, and checks.
 - Documentation and tests that do not depend on private infrastructure.
+- Automated source-boundary checks that look for private identifiers and
+  generated state.
 
 ## Excluded
 
@@ -22,3 +24,9 @@ Dragonix behavior.
 The private Dragonix repository remains the deployment source of truth. A
 future private-to-public export must preserve this boundary and receive an
 explicit review before publication.
+
+Run the local check with:
+
+```bash
+bash scripts/check-public-boundary.sh
+```

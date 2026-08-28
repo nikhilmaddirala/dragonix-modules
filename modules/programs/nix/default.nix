@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.dragonix.features.programs.nix.quality;
 in
@@ -14,10 +19,13 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [
-      nixfmt
-      shellcheck
-      shfmt
-    ] ++ cfg.extraPackages;
+    home.packages =
+      with pkgs;
+      [
+        nixfmt
+        shellcheck
+        shfmt
+      ]
+      ++ cfg.extraPackages;
   };
 }

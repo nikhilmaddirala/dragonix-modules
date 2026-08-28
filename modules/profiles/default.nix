@@ -3,6 +3,12 @@ let
   cfg = config.dragonix.profiles;
 in
 {
+  imports = [
+    ../programs/cli
+    ../programs/nix
+    ../programs/terminal
+  ];
+
   options.dragonix.profiles = {
     minimal.enable = lib.mkEnableOption "the small Dragonix public baseline";
 

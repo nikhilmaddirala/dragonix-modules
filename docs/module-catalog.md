@@ -42,3 +42,10 @@ the capabilities it wants:
 
 The modules do not choose a host, username, home directory, shell, network,
 secret backend, or deployment target. Those values remain composition inputs.
+
+Some capabilities intentionally provide a portable runtime dependency rather
+than an absent integration: `browser-runtime` provides Chromium for browser
+automation, `telemetry-json` provides `jq` for JSON inspection, and
+`lua-for-hammerspoon` provides Lua for authoring external Hammerspoon
+configuration. Their names and generated aliases do not claim to install or
+configure those external integrations.

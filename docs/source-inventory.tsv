@@ -1,0 +1,9 @@
+source_scope	classification	owner	dependency	license	redistribution	decision
+private/modules/programs/**	rewritten	capabilities	nixpkgs, home-manager	authored-mit	allowed	Only portable behavior is reimplemented; host values and private adapters are excluded.
+private/modules/system/**	rewritten	capabilities	nixpkgs, home-manager	authored-mit	allowed	Only cross-platform user-facing behavior is reimplemented; machine policy is excluded.
+private/modules/profiles/**	rewritten	profiles	nixpkgs, home-manager	authored-mit	allowed	Profiles are rebuilt from public capability composition rather than copied.
+private/modules/base/secrets/**	excluded	private-only	secret backends	private-only	not-redistributed	Credentials, secret paths, and secret-provider wiring never enter the public tree.
+private/modules/programs/dragonix-agents/**	excluded	private-only	private runtime	private-only	not-redistributed	Private agent estates and service topology are not publishable modules.
+private/modules/**/source.nix	excluded	private-only	provenance metadata	private-only	not-redistributed	Private source metadata is inventory evidence only and is not redistributed.
+private/hosts/**	excluded	private-only	deployment	private-only	not-redistributed	Host composition, identities, local paths, and deployment policy stay private.
+private/home/**	excluded	private-only	deployment	private-only	not-redistributed	User and host composition stays private.

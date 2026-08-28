@@ -1,0 +1,163 @@
+source	destination	owner	class	dependencies	sanitization	validation
+N/A (new public module)	modules/darwin/base.nix	core	darwin	nix-darwin, nixpkgs	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/darwin/desktop.nix	core	darwin	nix-darwin, nixpkgs	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+./modules/dragonix/default.nix	modules/dragonix/default.nix	core	home-manager	nixpkgs, home-manager	retained reviewed public module	flake checks and boundary scan
+N/A (new public module)	modules/lib/import-tree.nix	core	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/lib/package-feature.nix	core	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/nixos/base.nix	core	nixos	nixpkgs	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/nixos/desktop.nix	core	nixos	nixpkgs	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+./modules/profiles/default.nix	modules/profiles/default.nix	core	home-manager	nixpkgs, home-manager	retained reviewed public module	flake checks and boundary scan
+./modules/programs/cli/default.nix	modules/programs/cli/default.nix	core	home-manager	nixpkgs, home-manager	retained reviewed public module	flake checks and boundary scan
+./modules/programs/cli/development.nix	modules/programs/cli/development.nix	core	home-manager	nixpkgs, home-manager	retained reviewed public module	flake checks and boundary scan
+./modules/programs/cli/essentials.nix	modules/programs/cli/essentials.nix	core	home-manager	nixpkgs, home-manager	retained reviewed public module	flake checks and boundary scan
+./modules/programs/cli/interactive.nix	modules/programs/cli/interactive.nix	core	home-manager	nixpkgs, home-manager	retained reviewed public module	flake checks and boundary scan
+./modules/programs/cli/just/default.nix	modules/programs/cli/just/default.nix	core	home-manager	nixpkgs, home-manager	retained reviewed public module	flake checks and boundary scan
+./modules/programs/nix/default.nix	modules/programs/nix/default.nix	core	home-manager	nixpkgs, home-manager	retained reviewed public module	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ai/activitywatch.nix	ai	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ai/browser-runtime.nix	ai	home-manager	nixpkgs, home-manager	namespaced Chromium runtime; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ai/telemetry-json.nix	ai	home-manager	nixpkgs, home-manager	portable JSON telemetry tooling; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ai/claude.nix	ai	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ai/codex.nix	ai	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ai/editor-agent.nix	ai	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ai/gemini.nix	ai	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ai/json-context.nix	ai	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ai/llm.nix	ai	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ai/local-inference.nix	ai	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ai/markdown-context.nix	ai	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ai/model-context.nix	ai	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ai/node-ai.nix	ai	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ai/ollama.nix	ai	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ai/opencode.nix	ai	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ai/pi.nix	ai	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ai/prompt-tools.nix	ai	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ai/python-ai.nix	ai	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ai/shell-agent.nix	ai	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ai/terminal-agent.nix	ai	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/browsing/brave.nix	browsing	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/browsing/browser-devtools.nix	browsing	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/browsing/browser-presets.nix	browsing	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/browsing/browser-themes.nix	browsing	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/browsing/chromium.nix	browsing	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/browsing/firefox.nix	browsing	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/browsing/privacy-settings.nix	browsing	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/browsing/surfingkeys.nix	browsing	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/browsing/vivaldi.nix	browsing	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/browsing/web-apps.nix	browsing	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/atuin.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/bat.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/btop.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/curl.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/delta-tool.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/difftastic.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/dust.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/entr.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/eza.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/fd.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/file.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/fish.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/fzf.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/gh.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/git-lfs.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/gnumake.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/gzip.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/htop.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/imagemagick.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/jq.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/lazygit.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/less.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/lsof.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/ncdu.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/nixfmt.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/nushell.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/openssl.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/procs.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/python.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/ripgrep-all.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/ripgrep.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/sd.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/shellcheck.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/shfmt.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/tree.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/unzip.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/watchexec.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/wget.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/xh.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/yq.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/zip.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/zoxide.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/cli/zsh.nix	cli	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/desktop/anki.nix	desktop	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/desktop/calibre.nix	desktop	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/desktop/desktop-launchers.nix	desktop	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/desktop/gimp.nix	desktop	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/desktop/inkscape.nix	desktop	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/desktop/mpv.nix	desktop	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/desktop/obsidian.nix	desktop	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/desktop/signal.nix	desktop	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/desktop/thunderbird.nix	desktop	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/desktop/vlc.nix	desktop	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ide/editor-formatters.nix	ide	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ide/emacs.nix	ide	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ide/helix.nix	ide	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ide/kakoune.nix	ide	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ide/marksman.nix	ide	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ide/micro.nix	ide	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ide/nano.nix	ide	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ide/neovim.nix	ide	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ide/nil.nix	ide	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ide/nixd.nix	ide	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ide/taplo.nix	ide	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ide/tree-sitter.nix	ide	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ide/vim.nix	ide	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ide/vscode.nix	ide	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/ide/zed.nix	ide	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/terminal/alacritty.nix	terminal	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/terminal/foot.nix	terminal	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/terminal/ghostty.nix	terminal	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/terminal/kitty.nix	terminal	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/terminal/rio.nix	terminal	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/terminal/rxvt-unicode.nix	terminal	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/terminal/screen.nix	terminal	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/terminal/st.nix	terminal	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/terminal/terminal-colors.nix	terminal	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/terminal/terminal-fonts.nix	terminal	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/terminal/terminal-shell-integration.nix	terminal	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/terminal/tmux-plugins.nix	terminal	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/terminal/wezterm-extensions.nix	terminal	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/terminal/xterm.nix	terminal	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/terminal/zellij-layouts.nix	terminal	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+./modules/programs/terminal/default.nix	modules/programs/terminal/default.nix	core	home-manager	nixpkgs, home-manager	retained reviewed public module	flake checks and boundary scan
+./modules/programs/terminal/tmux.nix	modules/programs/terminal/tmux.nix	core	home-manager	nixpkgs, home-manager	retained reviewed public module	flake checks and boundary scan
+./modules/programs/terminal/wezterm.nix	modules/programs/terminal/wezterm.nix	core	home-manager	nixpkgs, home-manager	retained reviewed public module	flake checks and boundary scan
+./modules/programs/terminal/zellij.nix	modules/programs/terminal/zellij.nix	core	home-manager	nixpkgs, home-manager	retained reviewed public module	flake checks and boundary scan
+N/A (new public module)	modules/system/public/aerospace.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/audio.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/bluetooth.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/clipboard.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/display.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/flatpak.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/fonts.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/gnome.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/lua-for-hammerspoon.nix	system	home-manager	nixpkgs, home-manager	Lua authoring runtime only; Hammerspoon remains an external dependency	flake checks and boundary scan
+N/A (new public module)	modules/system/public/hyprland.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/kanata.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/karabiner.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/keyboard.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/login-manager.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/niri.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/notifications.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/portal.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/power.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/screen-lock.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/screenshots.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/system-extensions.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/system-monitoring.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/wallpapers.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/wayland.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/x11.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/system/public/xremap.nix	system	home-manager	nixpkgs, home-manager	new opt-in public wrapper; private references excluded	flake checks and boundary scan
+N/A (new public module)	modules/programs/public/default.nix	core	home-manager	nixpkgs, home-manager	new public namespace entrypoint; private references excluded	all-capabilities flake check and boundary scan
+N/A (new public module)	modules/system/public/default.nix	core	home-manager	nixpkgs, home-manager	new public namespace entrypoint; private references excluded	all-capabilities flake check and boundary scan
+N/A (new public module)	modules/public/default.nix	core	home-manager	nixpkgs, home-manager	new private-consumer entrypoint; private references excluded	private integration eval and boundary scan
+N/A (new public module)	modules/programs/public/ai/default.nix	core	home-manager	nixpkgs, home-manager	public AI namespace entrypoint; private references excluded	module-output checks and boundary scan
+N/A (new public module)	modules/programs/public/desktop/default.nix	core	home-manager	nixpkgs, home-manager	public desktop namespace entrypoint; private references excluded	module-output checks and boundary scan

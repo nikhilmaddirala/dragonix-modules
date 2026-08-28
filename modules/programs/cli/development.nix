@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.dragonix.features.programs.cli.development;
 in
@@ -18,12 +23,15 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [
-      just
-      nixfmt
-      shellcheck
-      shfmt
-    ] ++ cfg.extraPackages;
+    home.packages =
+      with pkgs;
+      [
+        just
+        nixfmt
+        shellcheck
+        shfmt
+      ]
+      ++ cfg.extraPackages;
 
     programs.delta = {
       enable = cfg.gitDelta.enable;

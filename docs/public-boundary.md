@@ -25,6 +25,12 @@ The private Dragonix repository remains the deployment source of truth. A
 future private-to-public export must preserve this boundary and receive an
 explicit review before publication.
 
+The tracked `.gitrepo` file is monorepo `git-subrepo` bookkeeping, not public
+source. The boundary check validates its metadata shape but excludes it from
+the publishable content scan; a standalone export must remove `.gitrepo` before
+publication. This preserves the monorepo's local subrepo ownership without
+publishing checkout-specific remote metadata.
+
 Run the local check with:
 
 ```bash

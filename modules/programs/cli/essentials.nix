@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.dragonix.features.programs.cli.essentials;
 in
@@ -14,12 +19,15 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [
-      fd
-      git
-      jq
-      ripgrep
-    ] ++ cfg.extraPackages;
+    home.packages =
+      with pkgs;
+      [
+        fd
+        git
+        jq
+        ripgrep
+      ]
+      ++ cfg.extraPackages;
 
     programs.git = {
       enable = true;

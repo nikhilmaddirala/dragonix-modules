@@ -13,7 +13,20 @@
     "features"
   ];
   name = "helix";
-  description = "Public reusable ide capability for helix.";
+  description = "Helix editor with portable editing defaults.";
   packageName = "helix";
+  nativeConfig = {
+    programs.helix = {
+      enable = true;
+      settings = {
+        editor = {
+          cursorline = true;
+          line-number = "relative";
+          true-color = true;
+          indent-guides.render = true;
+        };
+      };
+    };
+  };
 })
   moduleArgs

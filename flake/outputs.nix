@@ -23,12 +23,92 @@ let
       ++ [ (lib.removeSuffix ".nix" (builtins.baseNameOf path)) ]
     ) { enable = true; };
 
-  allPublicEnablements = lib.foldl' lib.recursiveUpdate { } (
-    (map (
-      path: capabilityEnablement "programs" [ (builtins.baseNameOf (builtins.dirOf path)) ] path
-    ) publicProgramModules)
-    ++ (map (capabilityEnablement "system" [ ]) publicSystemModules)
-  );
+  publicCapabilityMetadataFor =
+    system:
+    let
+      pkgs = import inputs.nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
+      home = inputs.home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [
+          {
+            home.username = "public";
+            home.homeDirectory = "/home/public";
+            home.stateVersion = "24.11";
+          }
+        ]
+        ++ publicProgramModules
+        ++ publicSystemModules;
+      };
+    in
+    home.config.dragonix.public.features.metadata;
+
+  publicCapabilityUsable =
+    system: pkgs: metadata: namespaceRoot: namespace: path:
+    let
+      name = lib.removeSuffix ".nix" (builtins.baseNameOf path);
+      capability = lib.getAttrFromPath ([ namespaceRoot ] ++ namespace ++ [ name ]) metadata;
+      packageName = capability.packageName;
+      systemSupported =
+        capability.supportedSystems == null || lib.elem system capability.supportedSystems;
+      packageResult =
+        if packageName == null then
+          {
+            success = true;
+            value = true;
+          }
+        else if !systemSupported then
+          {
+            success = true;
+            value = false;
+          }
+        else
+          builtins.tryEval (
+            let
+              package = lib.attrByPath (lib.splitString "." packageName) null pkgs;
+            in
+            package != null
+            && lib.meta.availableOn pkgs.stdenv.hostPlatform package
+            && !lib.elem system (package.meta.badPlatforms or [ ])
+            && (builtins.tryEval package.drvPath).success
+          );
+    in
+    packageName == null || (packageResult.success && packageResult.value);
+
+  publicCapabilityModulesFor =
+    system:
+    let
+      pkgs = import inputs.nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
+      metadata = publicCapabilityMetadataFor system;
+    in
+    {
+      programs = lib.filter (
+        path:
+        publicCapabilityUsable system pkgs metadata "programs" [
+          (builtins.baseNameOf (builtins.dirOf path))
+        ] path
+      ) publicProgramModules;
+      system = lib.filter (
+        path: publicCapabilityUsable system pkgs metadata "system" [ ] path
+      ) publicSystemModules;
+    };
+
+  allPublicEnablementsFor =
+    system:
+    let
+      modules = publicCapabilityModulesFor system;
+    in
+    lib.foldl' lib.recursiveUpdate { } (
+      (map (
+        path: capabilityEnablement "programs" [ (builtins.baseNameOf (builtins.dirOf path)) ] path
+      ) modules.programs)
+      ++ (map (capabilityEnablement "system" [ ]) (modules.system))
+    );
 
   countEnabled =
     attrs:
@@ -59,9 +139,10 @@ let
     home.activationPackage;
 
   checkModuleOutput =
-    system: module: featurePath: alias:
+    system: module: featurePath: alias: packageName:
     let
       pkgs = import inputs.nixpkgs { inherit system; };
+      package = lib.attrByPath (lib.splitString "." packageName) null pkgs;
       home = inputs.home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
@@ -79,6 +160,41 @@ let
     pkgs.runCommand "dragonix-public-module-output-${lib.replaceStrings [ "." ] [ "-" ] system}" { } ''
       test "${lib.boolToString feature.enable}" = true
       test "${lib.boolToString (builtins.hasAttr alias home.config.home.shellAliases)}" = true
+      test "${lib.boolToString (builtins.elem package home.config.home.packages)}" = true
+      touch "$out"
+    '';
+
+  checkNativeModules =
+    system:
+    let
+      pkgs = import inputs.nixpkgs { inherit system; };
+      home = inputs.home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [
+          ../modules/programs/public/cli/bat.nix
+          ../modules/programs/public/cli/eza.nix
+          ../modules/programs/public/ide/helix.nix
+          ../modules/programs/public/ide/neovim.nix
+          ../modules/system/public/fonts.nix
+          {
+            home.username = "public";
+            home.homeDirectory = "/home/public";
+            home.stateVersion = "24.11";
+            dragonix.public.features.programs.cli.bat.enable = true;
+            dragonix.public.features.programs.cli.eza.enable = true;
+            dragonix.public.features.programs.ide.helix.enable = true;
+            dragonix.public.features.programs.ide.neovim.enable = true;
+            dragonix.public.features.system.fonts.enable = true;
+          }
+        ];
+      };
+    in
+    pkgs.runCommand "dragonix-public-native-modules-${lib.replaceStrings [ "." ] [ "-" ] system}" { } ''
+      test "${lib.boolToString home.config.programs.bat.enable}" = true
+      test "${lib.boolToString home.config.programs.eza.enable}" = true
+      test "${lib.boolToString home.config.programs.helix.enable}" = true
+      test "${lib.boolToString home.config.programs.neovim.enable}" = true
+      test "${lib.boolToString home.config.fonts.fontconfig.enable}" = true
       touch "$out"
     '';
 
@@ -93,12 +209,15 @@ let
     in
     pkgs.runCommand "dragonix-public-private-consumer-${lib.replaceStrings [ "." ] [ "-" ] system}" { }
       ''
-      test "${lib.boolToString (builtins.hasAttr "dx-programs-ai-telemetry-json" home.config.home.shellAliases)}" = true
-        test "${lib.boolToString (builtins.hasAttr "dx-programs-desktop-mpv" home.config.home.shellAliases)}" = true
-        test "${lib.boolToString (lib.hasAttrByPath [ "dragonix" "public" "features" ] home.config)}" = true
-        test "${lib.boolToString (!(lib.hasAttrByPath [ "dragonix" "features" ] home.config))}" = true
-      test "${lib.boolToString (builtins.hasAttr ".config/dragonix-public/programs-ai-telemetry-json.conf" home.config.home.file)}" = true
-        touch "$out"
+        test "${lib.boolToString (builtins.hasAttr "dx-programs-ai-telemetry-json" home.config.home.shellAliases)}" = true
+          test "${lib.boolToString (builtins.hasAttr "dx-programs-desktop-mpv" home.config.home.shellAliases)}" = true
+          test "${lib.boolToString (builtins.elem pkgs.jq home.config.home.packages)}" = true
+          test "${lib.boolToString (builtins.elem pkgs.mpv home.config.home.packages)}" = true
+          test "${
+            lib.boolToString (lib.hasAttrByPath [ "dragonix" "public" "features" ] home.config)
+          }" = true
+          test "${lib.boolToString (!(lib.hasAttrByPath [ "dragonix" "features" ] home.config))}" = true
+          touch "$out"
       '';
 
   checkAllPublicCapabilities =
@@ -112,7 +231,7 @@ let
         inherit pkgs;
         modules = [
           ../modules/dragonix
-          allPublicEnablements
+          (allPublicEnablementsFor system)
           {
             home.username = "public";
             home.homeDirectory = "/home/public";
@@ -120,15 +239,19 @@ let
           }
         ];
       };
-      expected = builtins.length publicProgramModules + builtins.length publicSystemModules;
+      modules = publicCapabilityModulesFor system;
+      expected = builtins.length modules.programs + builtins.length modules.system;
       enabled = countEnabled home.config.dragonix.public.features;
+      packageCount = builtins.length home.config.home.packages;
     in
     pkgs.runCommand "dragonix-public-all-capabilities-eval" { } ''
       test "${toString enabled}" = "${toString expected}"
+      test "${toString packageCount}" -gt 50
       test "${lib.boolToString home.config.dragonix.public.features.programs.ai.codex.enable}" = true
       test "${lib.boolToString home.config.dragonix.public.features.system.audio.enable}" = true
+      test "${lib.boolToString (builtins.elem pkgs.jq home.config.home.packages)}" = true
+      test "${lib.boolToString (builtins.elem pkgs.mpv home.config.home.packages)}" = true
       test "${lib.boolToString (builtins.hasAttr "dx-programs-ai-codex" home.config.home.shellAliases)}" = true
-      test "${lib.boolToString (builtins.hasAttr ".config/dragonix-public/programs-ai-codex.conf" home.config.home.file)}" = true
       touch "$out"
     '';
 
@@ -175,6 +298,33 @@ let
       test "${lib.boolToString evaluated.config.dragonix.features.system.darwin.desktop.enable}" = true
       touch "$out"
     '';
+
+  checkUnsupportedCapability =
+    system:
+    let
+      pkgs = import inputs.nixpkgs { inherit system; };
+      evaluation = builtins.tryEval (
+        let
+          home = inputs.home-manager.lib.homeManagerConfiguration {
+            inherit pkgs;
+            modules = [
+              ../modules/dragonix
+              {
+                home.username = "public";
+                home.homeDirectory = "/home/public";
+                home.stateVersion = "24.11";
+                dragonix.public.features.system.wallpapers.enable = true;
+              }
+            ];
+          };
+        in
+        home.config.home.packages
+      );
+    in
+    pkgs.runCommand "dragonix-public-unsupported-capability" { } ''
+      test "${lib.boolToString (!evaluation.success)}" = true
+      touch "$out"
+    '';
 in
 {
   homeManagerModules.default = ../modules/dragonix;
@@ -208,7 +358,7 @@ in
         "programs"
         "ai"
         "telemetry-json"
-      ] "dx-programs-ai-telemetry-json";
+      ] "dx-programs-ai-telemetry-json" "jq";
       desktop-module = checkModuleOutput system ../modules/programs/public/desktop [
         "dragonix"
         "public"
@@ -216,13 +366,15 @@ in
         "programs"
         "desktop"
         "mpv"
-      ] "dx-programs-desktop-mpv";
+      ] "dx-programs-desktop-mpv" "mpv";
+      native-modules = checkNativeModules system;
     }
     // lib.optionalAttrs (system == "x86_64-linux") {
       nixos = checkNixos system;
     }
     // lib.optionalAttrs (system == "aarch64-darwin") {
       darwin = checkDarwin system;
+      unsupported-capability = checkUnsupportedCapability system;
     }
   );
 }

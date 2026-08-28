@@ -13,7 +13,10 @@
     "features"
   ];
   name = "zsh";
-  description = "Public reusable cli capability for zsh.";
+  description = "Z shell with Home Manager-managed initialization.";
   packageName = "zsh";
+  nativeConfig = {
+    programs.zsh.enable = true;
+  };
 })
   moduleArgs

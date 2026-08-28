@@ -13,7 +13,13 @@
     "features"
   ];
   name = "eza";
-  description = "Public reusable cli capability for eza.";
+  description = "Directory listings with Git-aware eza defaults.";
   packageName = "eza";
+  nativeConfig = {
+    programs.eza = {
+      enable = true;
+      extraOptions = [ "--git" ];
+    };
+  };
 })
   moduleArgs

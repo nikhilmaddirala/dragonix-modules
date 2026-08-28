@@ -13,7 +13,10 @@
     "features"
   ];
   name = "fish";
-  description = "Public reusable cli capability for fish.";
+  description = "Fish shell with Home Manager-managed initialization.";
   packageName = "fish";
+  nativeConfig = {
+    programs.fish.enable = true;
+  };
 })
   moduleArgs

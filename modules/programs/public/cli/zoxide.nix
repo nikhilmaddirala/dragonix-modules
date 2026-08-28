@@ -13,7 +13,13 @@
     "features"
   ];
   name = "zoxide";
-  description = "Public reusable cli capability for zoxide.";
+  description = "Directory-jumping history with shell integration.";
   packageName = "zoxide";
+  nativeConfig = {
+    programs.zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+  };
 })
   moduleArgs

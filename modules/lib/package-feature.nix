@@ -3,87 +3,120 @@
   name,
   description,
   packageName ? null,
+  supportedSystems ? null,
   namespaceRoot ? "programs",
   optionRoot ? [
     "dragonix"
     "features"
   ],
+  nativeConfig ? { },
   ...
 }:
 {
   config,
   lib,
+  options,
   pkgs,
   ...
 }:
 let
   optionPath = optionRoot ++ [ namespaceRoot ] ++ namespace ++ [ name ];
+  metadataPath =
+    optionRoot
+    ++ [
+      "metadata"
+      namespaceRoot
+    ]
+    ++ namespace
+    ++ [ name ];
   cfg = lib.getAttrFromPath optionPath config;
-  package = if packageName == null then null else lib.attrByPath [ packageName ] null pkgs;
-  packageAvailable =
-    package != null
-    && lib.meta.availableOn pkgs.stdenv.hostPlatform package
-    && !lib.elem pkgs.stdenv.hostPlatform.system (package.meta.badPlatforms or [ ]);
-  packageDerivation =
-    if package == null then { success = false; } else builtins.tryEval package.drvPath;
-  hasMainProgram = package != null && (package.meta.mainProgram or null) != null;
-  packageExecutable =
-    if packageAvailable && packageDerivation.success && hasMainProgram then
-      lib.getExe package
+  systemSupported =
+    supportedSystems == null || lib.elem pkgs.stdenv.hostPlatform.system supportedSystems;
+  packageMetadataResult =
+    if packageName == null || !systemSupported then
+      {
+        success = true;
+        value = {
+          package = null;
+          available = false;
+          mainProgram = null;
+        };
+      }
     else
-      null;
+      builtins.tryEval (
+        let
+          resolvedPackage = lib.attrByPath (lib.splitString "." packageName) null pkgs;
+        in
+        if resolvedPackage == null then
+          {
+            package = null;
+            available = false;
+            mainProgram = null;
+          }
+        else if
+          lib.meta.availableOn pkgs.stdenv.hostPlatform resolvedPackage
+          && !lib.elem pkgs.stdenv.hostPlatform.system (resolvedPackage.meta.badPlatforms or [ ])
+        then
+          {
+            package = resolvedPackage;
+            available = true;
+            mainProgram = resolvedPackage.meta.mainProgram or null;
+          }
+        else
+          {
+            package = null;
+            available = false;
+            mainProgram = null;
+          }
+      );
+  packageMetadata =
+    if packageMetadataResult.success then
+      packageMetadataResult.value
+    else
+      {
+        package = null;
+        available = false;
+        mainProgram = null;
+      };
+  package = packageMetadata.package;
+  packageAvailable = packageMetadataResult.success && packageMetadata.available && systemSupported;
+  packageDerivationResult =
+    if packageAvailable then
+      builtins.tryEval package.drvPath
+    else
+      {
+        success = false;
+        value = null;
+      };
+  packageUsable = packageAvailable && packageDerivationResult.success;
+  packageExecutableResult =
+    if packageUsable && packageMetadata.mainProgram != null then
+      builtins.tryEval (lib.getExe package)
+    else
+      {
+        success = false;
+        value = null;
+      };
+  packageExecutable = if packageExecutableResult.success then packageExecutableResult.value else null;
+  nativeConfigValue =
+    if builtins.isFunction nativeConfig then
+      nativeConfig {
+        inherit
+          config
+          lib
+          options
+          pkgs
+          ;
+      }
+    else
+      nativeConfig;
   capabilityId = lib.concatStringsSep "-" ([ namespaceRoot ] ++ namespace ++ [ name ]);
   defaultAliases = lib.optionalAttrs (packageExecutable != null) {
     "dx-${capabilityId}" = packageExecutable;
   };
   configPath = ".config/dragonix-public/${capabilityId}.conf";
-  marker = lib.toUpper (
-    lib.replaceStrings [ "-" ] [ "_" ] (
-      lib.concatStringsSep "_" (
-        [
-          "DRAGONIX"
-          "FEATURE"
-          (lib.toUpper namespaceRoot)
-        ]
-        ++ namespace
-        ++ [ name ]
-      )
-    )
-  );
-in
-{
-  options = lib.setAttrByPath optionPath {
-    enable = lib.mkEnableOption description;
-    extraPackages = lib.mkOption {
-      type = lib.types.listOf lib.types.package;
-      default = [ ];
-      description = "Additional packages for this public capability.";
-    };
-    aliases = lib.mkOption {
-      type = lib.types.attrsOf lib.types.str;
-      default = { };
-      description = "Shell aliases contributed by this public capability.";
-    };
-    settings = lib.mkOption {
-      type = lib.types.attrsOf lib.types.str;
-      default = { };
-      description = "Portable key-value settings recorded for this capability.";
-    };
-    environment = lib.mkOption {
-      type = lib.types.attrsOf lib.types.str;
-      default = { };
-      description = "Environment variables contributed by this public capability.";
-    };
-  };
-
-  config = lib.mkIf cfg.enable {
-    home.packages =
-      cfg.extraPackages ++ lib.optional (packageAvailable && packageDerivation.success) package;
-    home.shellAliases = defaultAliases // cfg.aliases;
-    home.sessionVariables = cfg.environment // {
-      ${marker} = "1";
-    };
-    home.file.${configPath}.text = ''
+  settingsFile = lib.optionalAttrs (cfg.settings != { }) {
+    ${configPath}.text = ''
       # Generated by Dragonix Public. Override this file through the module options.
       capability = ${capabilityId}
       package = ${toString packageName}
@@ -91,4 +124,70 @@ in
       ${lib.concatStringsSep "\n" (lib.mapAttrsToList (key: value: "${key} = ${value}") cfg.settings)}
     '';
   };
+in
+{
+  options =
+    lib.recursiveUpdate
+      (lib.setAttrByPath optionPath {
+        enable = lib.mkEnableOption description;
+        extraPackages = lib.mkOption {
+          type = lib.types.listOf lib.types.package;
+          default = [ ];
+          description = "Additional packages for this public capability.";
+        };
+        aliases = lib.mkOption {
+          type = lib.types.attrsOf lib.types.str;
+          default = { };
+          description = "Shell aliases contributed by this public capability.";
+        };
+        settings = lib.mkOption {
+          type = lib.types.attrsOf lib.types.str;
+          default = { };
+          description = "Portable key-value settings recorded for this capability.";
+        };
+        environment = lib.mkOption {
+          type = lib.types.attrsOf lib.types.str;
+          default = { };
+          description = "Environment variables contributed by this public capability.";
+        };
+      })
+      (
+        lib.setAttrByPath metadataPath {
+          packageName = lib.mkOption {
+            type = lib.types.nullOr lib.types.str;
+            readOnly = true;
+            default = packageName;
+            description = "Package backing this public capability, when applicable.";
+          };
+          supportedSystems = lib.mkOption {
+            type = lib.types.nullOr (lib.types.listOf lib.types.str);
+            readOnly = true;
+            default = supportedSystems;
+            description = "Systems on which this public capability is intended to be enabled.";
+          };
+        }
+      );
+
+  config = lib.mkIf cfg.enable (
+    lib.mkMerge [
+      {
+        assertions = lib.optional (packageName != null && !packageUsable) {
+          assertion = false;
+          message =
+            "Dragonix public capability '${capabilityId}' is enabled, but package '${packageName}' is unavailable on ${pkgs.stdenv.hostPlatform.system}."
+            + lib.optionalString (
+              supportedSystems != null
+            ) " Supported systems: ${lib.concatStringsSep ", " supportedSystems}.";
+        };
+        # Each package-backed leaf has observable Home Manager behavior: it adds
+        # the resolved nixpkgs package and, when the package exposes one, a
+        # namespaced command alias. Unsupported-platform packages are skipped.
+        home.packages = cfg.extraPackages ++ lib.optional packageUsable package;
+        home.shellAliases = defaultAliases // cfg.aliases;
+        home.sessionVariables = cfg.environment;
+        home.file = settingsFile;
+      }
+      nativeConfigValue
+    ]
+  );
 }

@@ -13,7 +13,10 @@
     "features"
   ];
   name = "fonts";
-  description = "Public reusable system capability for fonts.";
-  packageName = "fontconfig";
+  description = "Portable font configuration with a baseline font family.";
+  packageName = "dejavu_fonts";
+  nativeConfig = {
+    fonts.fontconfig.enable = true;
+  };
 })
   moduleArgs

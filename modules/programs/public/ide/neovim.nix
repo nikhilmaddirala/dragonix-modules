@@ -13,7 +13,15 @@
     "features"
   ];
   name = "neovim";
-  description = "Public reusable ide capability for neovim.";
+  description = "Neovim editor with a portable Home Manager configuration.";
   packageName = "neovim";
+  nativeConfig = {
+    programs.neovim = {
+      enable = true;
+      defaultEditor = false;
+      viAlias = true;
+      vimAlias = true;
+    };
+  };
 })
   moduleArgs

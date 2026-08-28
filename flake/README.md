@@ -16,9 +16,9 @@ Darwin architectures:
 - `terminal` — the minimal baseline plus tmux, Zellij, and WezTerm configuration.
 
 The `all-public-capabilities` check enables every curated leaf module once on
-each supported system and verifies the public namespace, generated capability
-configuration, and representative command aliases. Platform-specific
-packages are skipped when their metadata marks them unavailable for that host.
+each supported system and verifies the public namespace, installed package
+effects, and representative command aliases. Platform-specific packages are
+skipped when their metadata marks them unavailable for that host.
 Separate module-output checks import the public AI and desktop entry points so
 advertised directory outputs cannot silently point at missing files.
 

@@ -13,7 +13,12 @@
     "features"
   ];
   name = "atuin";
-  description = "Public reusable cli capability for atuin.";
+  description = "Shell history search and sync client with shell integration.";
   packageName = "atuin";
+  nativeConfig = {
+    programs.atuin = {
+      enable = true;
+    };
+  };
 })
   moduleArgs

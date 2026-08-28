@@ -15,5 +15,9 @@
   name = "display";
   description = "Public reusable system capability for display.";
   packageName = "wlr-randr";
+  supportedSystems = [
+    "x86_64-linux"
+    "aarch64-linux"
+  ];
 })
   moduleArgs

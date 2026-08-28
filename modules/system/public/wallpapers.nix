@@ -15,5 +15,9 @@
   name = "wallpapers";
   description = "Public reusable system capability for wallpapers.";
   packageName = "awww";
+  supportedSystems = [
+    "x86_64-linux"
+    "aarch64-linux"
+  ];
 })
   moduleArgs

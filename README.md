@@ -18,11 +18,15 @@ repository remains useful on its own.
   module classes.
 
 Every leaf capability is opt-in and installs its corresponding portable
-`nixpkgs` package (or the documented runtime dependency). Enabled capabilities
-also expose a namespaced `dx-*` command alias when the selected package
-publishes an executable, plus a small portable capability configuration file.
-Each module has extension points for additional packages, aliases, settings,
-and environment values.
+`nixpkgs` package (or the documented runtime dependency) on its declared
+supported systems. Enabling a package-backed capability on a system where its
+package is unavailable fails evaluation with an actionable error instead of
+silently producing a no-op. Enabled capabilities also expose a namespaced
+`dx-*` command alias when the selected package publishes an executable.
+Configuration-bearing capabilities can additionally write a small portable
+settings file, and native leaves use Home Manager's real program modules for
+their configuration. Each module has extension points for additional packages,
+aliases, settings, and environment values.
 
 Start with:
 
@@ -45,11 +49,13 @@ See [`modules/README.md`](modules/README.md), [`flake/README.md`](flake/README.m
 and [`docs/public-boundary.md`](docs/public-boundary.md) for the module catalog,
 validation surface, and publication boundary.
 
-The complete source inventory is [`docs/module-manifest.tsv`](docs/module-manifest.tsv).
-It records source, destination, owner, module class, dependencies, sanitization,
-and validation for each public Nix module. Authored configuration code is
-licensed under the MIT license; upstream package licenses remain with their
-respective projects.
+The complete public export manifest is [`docs/module-manifest.tsv`](docs/module-manifest.tsv).
+It records source ID, destination, owner, module class, dependencies,
+sanitization, license, redistribution, and validation for each public Nix
+module. The combined private checkout keeps a separate exact per-file
+accounting so newly added private modules cannot bypass provenance review.
+Authored configuration code is licensed under the MIT license; upstream
+package licenses remain with their respective projects.
 
 This repository deliberately contains no real host or home configuration,
 networking, deployment, secret, agent-estate, or private-repository data.

@@ -15,5 +15,9 @@
   name = "xremap";
   description = "Public reusable system capability for xremap.";
   packageName = "xremap";
+  supportedSystems = [
+    "x86_64-linux"
+    "aarch64-linux"
+  ];
 })
   moduleArgs

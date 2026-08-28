@@ -56,13 +56,16 @@ fi
 if ! awk -F '\t' '
   NF == 0 { next }
   NR == 1 { next }
-  NF != 7 { bad = 1; next }
-  ($1 == "" || $2 == "" || $3 == "" || $4 == "" || $5 == "" || $6 == "" || $7 == "") { bad = 1; next }
+  NF != 9 { bad = 1; next }
+  ($1 !~ /^(public-authored|public-retained):modules\/.*[.]nix$/) { bad = 1; next }
   ($2 !~ "^modules/.*[.]nix$") { bad = 1; next }
-  ($1 != "N/A (new public module)" && $1 !~ /^\.\//) { bad = 1; next }
+  ($3 == "" || $4 == "" || $5 == "" || $6 == "" || $7 == "" || $8 == "" || $9 == "") { bad = 1; next }
+  ($1 !~ ":" $2 "$" || $7 != "MIT" || $8 != "allowed") { bad = 1; next }
   seen[$2]++
+  source_seen[$1]++
   END {
     for (path in seen) if (seen[path] != 1) bad = 1
+    for (source in source_seen) if (source_seen[source] != 1) bad = 1
     exit bad
   }
 ' "$manifest"; then
@@ -77,11 +80,15 @@ while IFS=$'\t' read -r source destination _; do
     printf 'Public module manifest references missing path: %s\n' "$destination" >&2
     exit 1
   fi
-  if [[ "$source" == ./* && ! -f "$repo_root/${source#./}" ]]; then
-    printf 'Public module manifest references missing source: %s\n' "$source" >&2
-    exit 1
-  fi
 done < "$manifest"
+
+manifest_paths="$(tail -n +2 "$manifest" | awk -F '\t' 'NF { print $2 }' | sort)"
+actual_paths="$(find "$repo_root/modules" -type f -name '*.nix' -print | sed "s#^$repo_root/##" | sort)"
+if [[ "$manifest_paths" != "$actual_paths" ]]; then
+  printf 'Public module manifest does not exactly match the module tree.\n' >&2
+  diff -u <(printf '%s\n' "$actual_paths") <(printf '%s\n' "$manifest_paths") >&2 || true
+  exit 1
+fi
 
 if ! awk -F '\t' '
   NF == 0 { next }

@@ -15,5 +15,9 @@
   name = "screenshots";
   description = "Public reusable system capability for screenshots.";
   packageName = "grim";
+  supportedSystems = [
+    "x86_64-linux"
+    "aarch64-linux"
+  ];
 })
   moduleArgs

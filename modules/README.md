@@ -27,11 +27,16 @@ with a private Dragonix tree that owns the legacy `dragonix.features` namespace.
 See [`../docs/module-manifest.tsv`](../docs/module-manifest.tsv) for source,
 destination, ownership, sanitization, and dependencies.
 
-Every feature is opt-in. Feature modules expose ordinary Home Manager options
-and accept extension points such as `extraPackages`, aliases, or extra terminal
-configuration. The private Dragonix configuration can import the public
-default module and add private values around it. The private checkout uses the
-`homeManagerModules.core` output to avoid collisions with its legacy options.
+Every feature is opt-in. Package-backed leaves have an observable package
+effect and namespaced executable alias where the package provides one; native
+leaves additionally configure Home Manager's program options. Package-backed
+leaves can declare supported systems, and enabling any leaf where its package
+is unavailable fails evaluation instead of silently becoming a no-op. Feature
+modules accept extension points such as `extraPackages`,
+aliases, settings, or extra terminal configuration. The private Dragonix
+configuration can import the public default module and add private values
+around it. The private checkout uses the `homeManagerModules.core` output to
+avoid collisions with its legacy options.
 
 The public API intentionally does not model a real person, machine, network,
 secret store, deployment target, or private repository path.

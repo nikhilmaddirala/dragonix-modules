@@ -13,7 +13,10 @@
     "features"
   ];
   name = "terminal-shell-integration";
-  description = "Public reusable terminal capability for terminal-shell-integration.";
+  description = "Bash shell integration for terminal sessions.";
   packageName = "bash";
+  nativeConfig = {
+    programs.bash.enable = true;
+  };
 })
   moduleArgs

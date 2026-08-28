@@ -13,7 +13,16 @@
     "features"
   ];
   name = "bat";
-  description = "Public reusable cli capability for bat.";
+  description = "Syntax-highlighted file viewing with a portable bat configuration.";
   packageName = "bat";
+  nativeConfig = {
+    programs.bat = {
+      enable = true;
+      config = {
+        style = "numbers,changes,header";
+        pager = "less -FR";
+      };
+    };
+  };
 })
   moduleArgs

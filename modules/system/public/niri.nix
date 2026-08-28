@@ -15,5 +15,9 @@
   name = "niri";
   description = "Public reusable system capability for niri.";
   packageName = "niri";
+  supportedSystems = [
+    "x86_64-linux"
+    "aarch64-linux"
+  ];
 })
   moduleArgs

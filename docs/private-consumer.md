@@ -17,7 +17,7 @@ After explicit standalone publication, the same consumer changes only the
 input URL to the published repository; the module output remains `core`:
 
 ```nix
-inputs.dragonix-public.url = "github:OWNER/dragonix-public";
+inputs.dragonix-public.url = "github:OWNER/dragonix-modules";
 ```
 
 The public module owns only sanitized, opt-in options under

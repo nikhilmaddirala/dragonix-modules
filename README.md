@@ -1,61 +1,147 @@
-# Dragonix Public
+# Dragonix Modules
 
-Dragonix Public is the reusable, sanitized core of a larger private Nix
-configuration. It is a real standalone Home Manager module library rather than
-a redacted mirror: private Dragonix can consume these modules, while this
-repository remains useful on its own.
+Reusable Nix modules for Home Manager, NixOS, and nix-darwin.
 
-## What is included
+Dragonix Modules provides composable capabilities and profiles for building a
+practical shell, terminal, development, and desktop environment with Nix.
+
+## Features
 
 - A complete `homeManagerModules.default` entry point.
-- Composable CLI features for Git, fd, jq, ripgrep, bat, eza, fzf, zoxide,
-  direnv, Starship, tealdeer, `just`, Git delta, Nix formatting, and shell
-  quality tools.
-- Portable tmux, Zellij, and WezTerm modules with documented extension points.
-- `minimal`, `developer`, and `terminal` profiles for quick adoption.
+- `minimal`, `developer`, and `terminal` profiles.
+- Composable modules for Git, fd, jq, ripgrep, bat, eza, fzf, zoxide, direnv,
+  Starship, tealdeer, `just`, Git delta, Nix tooling, and shell quality tools.
+- Portable tmux, Zellij, and WezTerm modules with extension points.
+- Public CLI, terminal, IDE, AI, browsing, and desktop capabilities.
+- Extension points for packages, aliases, settings, and environment values.
 - Cross-platform flake checks and standalone example compositions.
-- A provenance manifest covering the public Home Manager, NixOS, and Darwin
-  module classes.
+- Provenance documentation for the published module set.
 
-Every leaf capability is opt-in and installs its corresponding portable
-`nixpkgs` package (or the documented runtime dependency) on its declared
-supported systems. Enabling a package-backed capability on a system where its
-package is unavailable fails evaluation with an actionable error instead of
-silently producing a no-op. Enabled capabilities also expose a namespaced
-`dx-*` command alias when the selected package publishes an executable.
-Configuration-bearing capabilities can additionally write a small portable
-settings file, and native leaves use Home Manager's real program modules for
-their configuration. Each module has extension points for additional packages,
-aliases, settings, and environment values.
+Every leaf capability is opt-in. Package-backed capabilities install their
+corresponding `nixpkgs` package on supported systems and fail evaluation with
+an actionable error when a package is unavailable. Enabled capabilities can
+also expose a namespaced `dx-*` command alias when the selected package
+publishes an executable. Configuration-bearing capabilities can write a small
+portable settings file, and native leaves use Home Manager's program modules.
 
-Start with:
+The primary integration surface is Home Manager. Additional NixOS and
+nix-darwin module classes are included where documented in the module catalog.
+
+## Quick start
+
+Add Dragonix Modules to a flake:
 
 ```nix
 {
-  inputs.dragonix-public.url = "github:OWNER/dragonix-public";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-  outputs = { self, nixpkgs, home-manager, dragonix-public, ... }:
-    home-manager.lib.homeManagerConfiguration {
-      pkgs = import nixpkgs { system = "x86_64-linux"; };
-      modules = [
-        dragonix-public.homeManagerModules.default
-        { dragonix.profiles.developer.enable = true; }
-      ];
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    dragonix-modules.url = "github:OWNER/dragonix-modules";
+  };
+
+  outputs = { home-manager, dragonix-modules, nixpkgs, ... }:
+    let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs { inherit system; };
+    in
+    {
+      homeConfigurations.alice =
+        home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+
+          modules = [
+            dragonix-modules.homeManagerModules.default
+
+            {
+              home.username = "alice";
+              home.homeDirectory = "/home/alice";
+              home.stateVersion = "25.11";
+
+              dragonix.profiles.developer.enable = true;
+            }
+          ];
+        };
     };
 }
 ```
 
-See [`modules/README.md`](modules/README.md), [`flake/README.md`](flake/README.md),
-and [`docs/public-boundary.md`](docs/public-boundary.md) for the module catalog,
-validation surface, and publication boundary.
+Replace the example username, home directory, system, and
+`home.stateVersion` with values appropriate for your machine. Apply the
+configuration with:
 
-The complete public export manifest is [`docs/module-manifest.tsv`](docs/module-manifest.tsv).
-It records source ID, destination, owner, module class, dependencies,
-sanitization, license, redistribution, and validation for each public Nix
-module. The combined private checkout keeps a separate exact per-file
-accounting so newly added private modules cannot bypass provenance review.
-Authored configuration code is licensed under the MIT license; upstream
-package licenses remain with their respective projects.
+```bash
+home-manager switch --flake .#alice
+```
 
-This repository deliberately contains no real host or home configuration,
-networking, deployment, secret, agent-estate, or private-repository data.
+You can compose individual modules instead of using a profile. See the module
+catalog for the available options and recommended combinations.
+
+## Profiles
+
+Profiles provide convenient starting points:
+
+- `dragonix.profiles.minimal.enable`
+- `dragonix.profiles.developer.enable`
+- `dragonix.profiles.terminal.enable`
+
+Profiles are compositions. Individual capabilities can be enabled separately
+when you need more control over the resulting configuration.
+
+## Documentation
+
+- [Module catalog](docs/module-catalog.md)
+- [Module tree](modules/README.md)
+- [Flake integration](flake/README.md)
+- [Module manifest](docs/module-manifest.tsv)
+- [Public boundary](docs/public-boundary.md)
+- [Provenance and redistribution](docs/provenance-and-redistribution.md)
+- [Contributing](CONTRIBUTING.md)
+
+## Compatibility
+
+The flake pins its Nixpkgs and Home Manager inputs in `flake.lock`.
+
+The supported validation matrix is defined by the flake and checked with:
+
+```bash
+nix flake check --all-systems
+```
+
+Dragonix Modules requires Nix with flakes enabled and is intended for use with
+Home Manager. Refer to the module documentation for platform-specific
+limitations and integration details.
+
+## Development
+
+Clone the repository and run the checks:
+
+```bash
+git clone https://github.com/OWNER/dragonix-modules.git
+cd dragonix-modules
+
+nix flake check --all-systems
+bash scripts/check-public-boundary.sh
+```
+
+The boundary check verifies that the repository contains only the intended
+public module set. It rejects known private host identifiers,
+credential-shaped values, generated state, and incomplete provenance metadata.
+
+## Security
+
+Please report security vulnerabilities privately through GitHub Security
+Advisories for this repository. Do not disclose sensitive infrastructure
+details or credentials in public issues.
+
+## License
+
+Dragonix Modules is licensed under the [MIT License](LICENSE).
+
+The repository contains module code and configuration interfaces. Licenses for
+upstream packages referenced by these modules remain with their respective
+projects.

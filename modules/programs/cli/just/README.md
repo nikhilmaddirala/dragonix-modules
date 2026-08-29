@@ -6,7 +6,7 @@ uses the repository-local `justfile` when one is available.
 ```nix
 {
   imports = [
-    inputs.dragonix-public.homeManagerModules.just
+    inputs.dragonix-modules.homeManagerModules.just
   ];
 
   dragonix.features.programs.cli.just.enable = true;

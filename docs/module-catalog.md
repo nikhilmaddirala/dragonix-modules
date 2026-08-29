@@ -3,6 +3,14 @@
 The public API has two layers: small feature modules for selective composition,
 and profiles for a fast starting point.
 
+The option namespace is shown by each module's implementation and examples:
+
+- `dragonix.profiles.*` contains the convenience profiles.
+- `dragonix.features.*` contains the retained core feature modules.
+- `dragonix.public.features.*` contains the newer curated public capabilities.
+
+Use the namespace documented for the module you import.
+
 | Entry point | Main options | Purpose |
 | --- | --- | --- |
 | `modules/dragonix` | — | Import the complete public module set. |
@@ -26,7 +34,7 @@ the capabilities it wants:
 
 ```nix
 {
-  imports = [ inputs.dragonix-public.homeManagerModules.default ];
+  imports = [ inputs.dragonix-modules.homeManagerModules.default ];
 
   dragonix.features.programs.cli.essentials = {
     enable = true;

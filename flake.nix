@@ -1,5 +1,5 @@
 {
-  description = "Curated public Dragonix modules";
+  description = "Reusable Dragonix Nix modules";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";

@@ -1,7 +1,7 @@
 # Security policy
 
-Please report security vulnerabilities privately through GitHub Security
-Advisories for this repository.
+Please report security vulnerabilities privately through [GitHub Security
+Advisories](https://github.com/nikhilmaddirala/dragonix-modules/security/advisories/new).
 Do not put secrets, private infrastructure details, or vulnerability reports in
 public issues.
 

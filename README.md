@@ -41,7 +41,7 @@ Add Dragonix Modules to a flake:
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    dragonix-modules.url = "github:OWNER/dragonix-modules";
+    dragonix-modules.url = "github:nikhilmaddirala/dragonix-modules";
   };
 
   outputs = { home-manager, dragonix-modules, nixpkgs, ... }:
@@ -121,7 +121,7 @@ limitations and integration details.
 Clone the repository and run the checks:
 
 ```bash
-git clone https://github.com/OWNER/dragonix-modules.git
+git clone https://github.com/nikhilmaddirala/dragonix-modules.git
 cd dragonix-modules
 
 nix flake check --all-systems
@@ -134,9 +134,10 @@ credential-shaped values, generated state, and incomplete provenance metadata.
 
 ## Security
 
-Please report security vulnerabilities privately through GitHub Security
-Advisories for this repository. Do not disclose sensitive infrastructure
-details or credentials in public issues.
+Please report security vulnerabilities privately through [GitHub Security
+Advisories](https://github.com/nikhilmaddirala/dragonix-modules/security/advisories/new).
+Do not disclose sensitive infrastructure details or credentials in public
+issues.
 
 ## License
 

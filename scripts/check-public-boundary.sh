@@ -10,7 +10,7 @@ if [[ -f "$repo_root/.gitrepo" ]] && ! awk '
   /^;/ { next }
   NF == 0 { next }
   $1 == "[subrepo]" { section = 1; next }
-  section && $1 ~ /^(remote|branch|commit|method|cmdver)$/ && $2 == "=" { next }
+  section && $1 ~ /^(remote|branch|commit|method|cmdver|parent)$/ && $2 == "=" { next }
   { bad = 1 }
   END { exit bad }
 ' "$repo_root/.gitrepo"; then
@@ -19,10 +19,14 @@ if [[ -f "$repo_root/.gitrepo" ]] && ! awk '
 fi
 
 if matches="$({
-  rg -n -S --hidden \
+  # The public repository owner is allowed only as part of the canonical
+  # Dragonix Modules repository reference. A bare handle or a different
+  # repository still fails the boundary check.
+  public_owner_pattern="(?<!github:)(?<!github\\.com/)$(printf '%s%s' nikhil maddirala)|(?:(?<=github:)|(?<=github\\.com/))$(printf '%s%s' nikhil maddirala)(?!/dragonix-modules(?:[^A-Za-z0-9_-]|$))"
+  rg --pcre2 -n -S --hidden \
     --glob '!.git/**' \
     --glob '!.gitrepo' \
-    -e "$(printf '%s%s' nikhil maddirala)" \
+    -e "$public_owner_pattern" \
     -e "$(printf '%s%s' ver max)" \
     -e "$(printf '%s%s' sheep stealer)" \
     -e "$(printf '%s%s' dream fyre)" \
